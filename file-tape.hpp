@@ -59,10 +59,11 @@ private:
       {
         return; //todo
       }
-      delays_["read"] = cfg.value("read", 20);
-      delays_["write"] = cfg.value("read", 20);
-      delays_["rewind"] = cfg.value("read", 100);
-      delays_["move"] = cfg.value("read", 10);
+      auto delays = cfg["delays"];
+      delays_["read"] = delays.value("read", 20);
+      delays_["write"] = delays.value("read", 20);
+      delays_["rewind"] = delays.value("read", 100);
+      delays_["move"] = delays.value("read", 10);
     }
     catch (const std::exception & e)
     {

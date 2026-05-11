@@ -4,7 +4,7 @@
 
 int main()
 {
-  FileTape tape("test_tape.txt", "config.json");
+  FileTape tape("test_tape", "config.json");
   std::cout << "read that bitch\n";
   tape.write(10);
   std::cout << "writed 10\n";

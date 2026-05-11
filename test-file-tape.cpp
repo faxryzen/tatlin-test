@@ -6,12 +6,12 @@
 
 namespace fs = std::filesystem;
 
-struct TempCreater
+struct TempCreator
 {
 private:
   bool existed_ = false;
 public:
-  TempCreater():
+  TempCreator():
     existed_(fs::exists("tmp"))
   {
     if (!existed_)
@@ -19,7 +19,7 @@ public:
       fs::create_directory("tmp");
     }
   }
-  ~TempCreater()
+  ~TempCreator()
   {
     if (!existed_)
     {
@@ -28,13 +28,47 @@ public:
   }
 };
 
-BOOST_GLOBAL_FIXTURE(TempCreater);
+struct TestFileCreator
+{
+private:
+  fs::path filepath_;
+  bool existed_ = false;
+  bool error_ = false;
+public:
+  TestFileCreator(const std::string & filepath):
+    filepath_(filepath)
+  {
+    if (fs::exists(filepath_))
+    {
+      fs::remove(filepath_);
+    }
+    std::ofstream file(filepath_);
+    if (!file)
+    {
+      error_ = true;
+      return;
+    }
+    file.close();
+  }
+  ~TestFileCreator()
+  {
+    if (!error_ && fs::exists(filepath_))
+    {
+      fs::remove(filepath_);
+    }
+  }
+  bool isGood()
+  {
+    return !error_;
+  }
+};
+
+BOOST_GLOBAL_FIXTURE(TempCreator);
 
 BOOST_AUTO_TEST_CASE(simple_write_and_read)
 {
-  std::ofstream file("tmp/simple_write_and_read");
-  BOOST_TEST(file.is_open());
-  file.close();
+  TestFileCreator test("tmp/simple_write_and_read");
+  BOOST_TEST(test.isGood());
 
   FileTape tape("tmp/simple_write_and_read", "config.json");
 
