@@ -2,18 +2,23 @@
 
 #include "file-tape.hpp"
 
-int main()
+int main(int argc, char ** argv)
 {
-  FileTape tape("test_tape", "config.json");
-  std::cout << "read that bitch\n";
-  tape.write(10);
-  std::cout << "writed 10\n";
-  tape.next();
-  std::cout << "moved\n";
-  tape.write(20);
-  std::cout << "writed 20\n";
-  tape.next();
-  std::cout << "moved\n";
-  tape.write(30);
-  std::cout << "writed 30\n";
+  if (argc != 3)
+  {
+    std::cerr << "format: ./output <tape1> <tape2>\n";
+    return 1;
+  }
+  std::fstream tape1(argv[1]);
+  if (!tape1)
+  {
+    std::cerr << "invalid file\n";
+    return 1;
+  }
+  std::fstream tape2(argv[2]);
+  if (!tape2)
+  {
+    std::cerr << "invalid file\n";
+    return 1;
+  }
 }

@@ -42,3 +42,12 @@ void FileTape::rewind()
   std::this_thread::sleep_for(std::chrono::milliseconds(delays_["rewind"]));
   setHeadPos(0);
 }
+
+bool FileTape::end()
+{
+  if (!file_)
+  {
+    return true;
+  }
+  return false;
+}

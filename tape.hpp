@@ -13,6 +13,8 @@ public:
   virtual void prev() = 0;
 
   virtual void rewind() = 0;
+
+  virtual bool end() = 0;
 };
 
 #endif

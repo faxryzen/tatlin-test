@@ -43,6 +43,7 @@ public:
   void prev() override;
 
   void rewind() override;
+  bool end() override;
 private:
   void execConfig(const std::string & config)
   {
