@@ -15,6 +15,7 @@ class FileTape: public Tape
 private:
   std::fstream file_;
   std::streampos pos_;
+  std::streampos file_size_;
   std::unordered_map< std::string, size_t > delays_;
 
   void setHeadPos(std::streampos position)
@@ -33,6 +34,8 @@ public:
     {
       //todo
     }
+    file_.seekg(0, std::ios::end);
+    file_size_ = file_.tellg();
     setHeadPos(pos_);
   }
 
@@ -41,8 +44,8 @@ public:
 
   void next() override;
   void prev() override;
-
   void rewind() override;
+
   bool end() override;
 private:
   void execConfig(const std::string & config)
@@ -71,6 +74,12 @@ private:
       return; //todo
     }
   }
+};
+
+class TempFileTapeCreator: public TempTapeCreator
+{
+public:
+  std::unique_ptr< Tape > create() override;
 };
 
 #endif
