@@ -4,7 +4,7 @@
 # compile CXX with /usr/bin/g++
 CXX_DEFINES = 
 
-CXX_INCLUDES = -I/home/faxryzen/projects/tatlin-test/src -I/home/faxryzen/projects/tatlin-test/build/_deps/json-src/include
+CXX_INCLUDES = -I/home/faxryzen/projects/tatlin-test/src -I/home/faxryzen/projects/tatlin-test/common
 
 CXX_FLAGS = -g -std=gnu++17
 

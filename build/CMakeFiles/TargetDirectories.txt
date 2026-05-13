@@ -3,6 +3,3 @@
 /home/faxryzen/projects/tatlin-test/build/CMakeFiles/test.dir
 /home/faxryzen/projects/tatlin-test/build/CMakeFiles/edit_cache.dir
 /home/faxryzen/projects/tatlin-test/build/CMakeFiles/rebuild_cache.dir
-/home/faxryzen/projects/tatlin-test/build/_deps/json-build/CMakeFiles/test.dir
-/home/faxryzen/projects/tatlin-test/build/_deps/json-build/CMakeFiles/edit_cache.dir
-/home/faxryzen/projects/tatlin-test/build/_deps/json-build/CMakeFiles/rebuild_cache.dir

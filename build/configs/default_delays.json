@@ -2,7 +2,7 @@
   "delays": {
     "read": 10,
     "write": 10,
-    "rewind": 100,
-    "move": 2
+    "rewind": 50,
+    "move": 1
   }
 }

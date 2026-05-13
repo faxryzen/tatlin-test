@@ -4,7 +4,7 @@
 # compile CXX with /usr/bin/g++
 CXX_DEFINES = -DBOOST_UNIT_TEST_FRAMEWORK_DYN_LINK -DBOOST_UNIT_TEST_FRAMEWORK_NO_LIB
 
-CXX_INCLUDES = -I/home/faxryzen/projects/tatlin-test/src -I/home/faxryzen/projects/tatlin-test/build/_deps/json-src/include
+CXX_INCLUDES = -I/home/faxryzen/projects/tatlin-test/src -I/home/faxryzen/projects/tatlin-test/common
 
 CXX_FLAGS = -g -std=gnu++17
 

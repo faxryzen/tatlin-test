@@ -36,7 +36,7 @@ namespace savintsev
     {
       if (!src || !dst)
       {
-        return;
+        throw std::invalid_argument("tape sort: src or dst null");
       }
       in_ = src;
       out_ = dst;
@@ -63,7 +63,7 @@ namespace savintsev
 
       if (!creator)
       {
-        return;
+        throw std::invalid_argument("tape sort: should contain creator");
       }
 
       tmp_[0] = creator->create();
