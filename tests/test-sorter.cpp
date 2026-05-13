@@ -7,7 +7,7 @@ BOOST_AUTO_TEST_CASE(sort1)
 {
   using namespace savintsev;
 
-  TempFileTapeCreator creator;
+  TempFileTapeCreator creator("configs/test_delays.json");
   std::unique_ptr< Tape > src = creator.create();
   std::unique_ptr< Tape > dst = creator.create();
 
@@ -38,7 +38,7 @@ BOOST_AUTO_TEST_CASE(sort2)
 {
   using namespace savintsev;
 
-  TempFileTapeCreator creator;
+  TempFileTapeCreator creator("configs/test_delays.json");
   std::unique_ptr< Tape > src = creator.create();
   std::unique_ptr< Tape > dst = creator.create();
 
@@ -50,7 +50,38 @@ BOOST_AUTO_TEST_CASE(sort2)
   }
   src->rewind();
 
-  TapeSorter sorter;
+  TapeSorter sorter(5);
+  sorter.sort(src.get(), dst.get(), &creator, std::less< int >());
+  std::sort(vec.begin(), vec.end(), std::less< int >());
+
+  dst->rewind();
+
+  for (int v: vec)
+  {
+    int val = 0;
+    dst->read(val);
+    BOOST_TEST(val == v);
+    dst->next();
+  }
+}
+
+BOOST_AUTO_TEST_CASE(sort3)
+{
+  using namespace savintsev;
+
+  TempFileTapeCreator creator("configs/test_delays.json");
+  std::unique_ptr< Tape > src = creator.create();
+  std::unique_ptr< Tape > dst = creator.create();
+
+  std::vector< int > vec{657, 65, 63, 746, 633, 65, 76, 23, 7, 324, 223, 46, 76};
+  for (int v: vec)
+  {
+    src->write(v);
+    src->next();
+  }
+  src->rewind();
+
+  TapeSorter sorter(3);
   sorter.sort(src.get(), dst.get(), &creator, std::less< int >());
   std::sort(vec.begin(), vec.end(), std::less< int >());
 

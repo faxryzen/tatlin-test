@@ -32,7 +32,7 @@ namespace savintsev
     {}
 
     template< typename Compare = std::less< int > >
-    void sort(Tape * src, Tape * dst, TempTapeCreator * creator, Compare comp = Compare())
+    void sort(Tape * src, Tape * dst, TempTapeCreator * creator = nullptr, Compare comp = Compare())
     {
       if (!src || !dst)
       {

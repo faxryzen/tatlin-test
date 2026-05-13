@@ -32,7 +32,12 @@ else()
   target_link_libraries(tape_sort PRIVATE nlohmann_json)
 endif()
 
-find_package(Boost REQUIRED COMPONENTS unit_test_framework)
+find_package(Boost QUIET CONFIG COMPONENTS unit_test_framework)
+
+if(NOT Boost_FOUND)
+  cmake_policy(SET CMP0167 OLD)
+  find_package(Boost REQUIRED COMPONENTS unit_test_framework)
+endif()
 
 add_executable(tape_test
   tests/test-default.cpp
@@ -52,11 +57,12 @@ else()
 endif()
 
 file(GLOB CONFIG_FILES ${CMAKE_SOURCE_DIR}/configs/*)
+file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/configs)
 foreach(CONFIG_FILE ${CONFIG_FILES})
   get_filename_component(CONFIG_NAME ${CONFIG_FILE} NAME)
   configure_file(
     ${CONFIG_FILE}
-    ${CMAKE_BINARY_DIR}/${CONFIG_NAME}
+    ${CMAKE_BINARY_DIR}/configs/${CONFIG_NAME}
     COPYONLY
   )
 endforeach()

@@ -20,6 +20,8 @@ public:
 
 class TempTapeCreator
 {
+private:
+  std::string config_;
 public:
   virtual ~TempTapeCreator() = default;
   virtual std::unique_ptr< Tape > create() = 0;

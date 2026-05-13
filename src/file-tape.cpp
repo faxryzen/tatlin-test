@@ -59,5 +59,9 @@ std::unique_ptr< Tape > TempFileTapeCreator::create()
   std::string filename = "tmp/filetape_" + std::to_string(sc::now().time_since_epoch().count()) + ".tmp";
   std::ofstream file(filename);
   file.close();
-  return std::make_unique< FileTape >(filename, "config.json");
+  return std::make_unique< FileTape >(filename, config_);
 }
+
+TempFileTapeCreator::TempFileTapeCreator(const std::string & configuration):
+  config_(configuration)
+{}
