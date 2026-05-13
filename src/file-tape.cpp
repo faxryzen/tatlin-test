@@ -93,10 +93,10 @@ bool FileTape::execConfig(const std::string & config) noexcept
       throw std::runtime_error("filetape: cfg error: invalid json");
     }
     auto delays = cfg["delays"];
-    delays_["read"] = delays.value("read", 20);
-    delays_["write"] = delays.value("read", 20);
-    delays_["rewind"] = delays.value("read", 100);
-    delays_["move"] = delays.value("read", 10);
+    delays_["read"] = delays.value("read", 5);
+    delays_["write"] = delays.value("read", 5);
+    delays_["rewind"] = delays.value("read", 30);
+    delays_["move"] = delays.value("read", 2);
   }
   catch (const std::exception & e)
   {
