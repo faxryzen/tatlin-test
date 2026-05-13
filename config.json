@@ -1,8 +1,0 @@
-{
-  "delays": {
-    "read": 10,
-    "write": 10,
-    "rewind": 10,
-    "move": 10
-  }
-}

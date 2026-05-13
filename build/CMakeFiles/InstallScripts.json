@@ -1,0 +1,8 @@
+{
+	"InstallScripts" : 
+	[
+		"/home/faxryzen/projects/tatlin-test/build/cmake_install.cmake",
+		"/home/faxryzen/projects/tatlin-test/build/_deps/json-build/cmake_install.cmake"
+	],
+	"Parallel" : false
+}
