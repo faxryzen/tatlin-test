@@ -20,10 +20,11 @@ cmake ..
 make
 ```
 #### Windows (MSVC)
+Если с установить Boost с vcpkg
 ```shell
 mkdir build
 cd build
-cmake ..
+cmake .. -DCMAKE_TOOLCHAIN_FILE=<path_to_vcpkg>/scripts/buildsystems/vcpkg.cmake
 cmake --build . --config Release
 ```
 ## О приложении
