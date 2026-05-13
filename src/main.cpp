@@ -22,8 +22,9 @@ int main(int argc, char ** argv)
       std::cerr << "Usage: " << argv[0] << " --help\n";
       return 1;
     }
-    std::cout << argv[0] << " --generate <filename> <count> - generate file for sort with random numbers\n";
-    std::cout << argv[0] << " <input_tape> <output_tape> - sort <input> and write at <output>\n";
+    std::cout << argv[0] << " --generate <filename> <count>                 generate file for sort with random numbers\n";
+    std::cout << argv[0] << " <input_tape> <output_tape>                    sort <input> and write at <output>\n";
+    std::cout << argv[0] << " <input_tape> <output_tape> <memory_size>      sort but limits memory - affects speed\n";
     return 0;
   }
 
@@ -54,30 +55,54 @@ int main(int argc, char ** argv)
     return 0;
   }
 
-  if (argc != 3)
+  if (argc != 3 && argc != 4)
   {
     std::cerr << "Usage: " << argv[0] << " <input_tape> <output_tape>\n";
+    std::cerr << "Usage: " << argv[0] << " <input_tape> <output_tape> <memory_size>\n";
     return 1;
   }
 
   FileTape input(argv[1], "configs/default_delays.json");
   FileTape output(argv[2], "configs/default_delays.json");
 
-  savintsev::TapeSorter sorter;
-  TempFileTapeCreator creator("configs/default_delays.json");
+  if (argc == 4)
+  {
+    size_t memory = std::stoull(argv[3]);
 
-  std::cout << "Sorting...\n";
+    savintsev::TapeSorter sorter(memory);
+    TempFileTapeCreator creator("configs/default_delays.json");
 
-  auto start = std::chrono::high_resolution_clock::now();
-  sorter.sort(&input, &output, &creator, std::less< int >());
-  auto end = std::chrono::high_resolution_clock::now();
+    std::cout << "Sorting...\n";
 
-  auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
-  auto sec = duration.count() / 1000;
-  auto ms = duration.count() % 1000;
+    auto start = std::chrono::high_resolution_clock::now();
+    sorter.sort(&input, &output, &creator, std::less< int >());
+    auto end = std::chrono::high_resolution_clock::now();
 
-  std::cout << "Sorted successfully\n";
-  std::cout << "Time: " << sec << "." << ms << " s\n";
+    auto duration = std::chrono::duration_cast< std::chrono::milliseconds >(end - start);
+    auto sec = duration.count() / 1000;
+    auto ms = duration.count() % 1000;
+
+    std::cout << "Sorted successfully\n";
+    std::cout << "Time: " << sec << "." << ms << " s\n";
+  }
+  else
+  {
+    savintsev::TapeSorter sorter;
+    TempFileTapeCreator creator("configs/default_delays.json");
+
+    std::cout << "Sorting...\n";
+
+    auto start = std::chrono::high_resolution_clock::now();
+    sorter.sort(&input, &output, &creator, std::less< int >());
+    auto end = std::chrono::high_resolution_clock::now();
+
+    auto duration = std::chrono::duration_cast< std::chrono::milliseconds >(end - start);
+    auto sec = duration.count() / 1000;
+    auto ms = duration.count() % 1000;
+
+    std::cout << "Sorted successfully\n";
+    std::cout << "Time: " << sec << "." << ms << " s\n";
+  }
 
   std::cout << "Show results? [y/n]: ";
   std::string answer = "";

@@ -27,7 +27,7 @@ namespace savintsev
 
   public:
     TapeSorter(size_t memory_size = 100):
-      MEMORY_SIZE(memory_size),
+      MEMORY_SIZE(memory_size == 0 ? 100 : memory_size),
       mem_(MEMORY_SIZE)
     {}
 
