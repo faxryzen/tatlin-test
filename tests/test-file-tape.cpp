@@ -165,3 +165,56 @@ BOOST_AUTO_TEST_CASE(no_config)
     ++i;
   }
 }
+
+BOOST_AUTO_TEST_CASE(test_prev)
+{
+  TempFileTapeCreator creator("configs/test_delays.json");
+  auto tape = creator.create();
+
+  int values[] = {10, 20, 30, 40, 50};
+  for (int v : values)
+  {
+    tape->write(v);
+    tape->next();
+  }
+
+  tape->rewind();
+
+  int val;
+  tape->read(val);
+  BOOST_TEST(val == 10);
+
+  tape->next();
+  tape->read(val);
+  BOOST_TEST(val == 20);
+
+  tape->next();
+  tape->read(val);
+  BOOST_TEST(val == 30);
+
+  tape->prev();
+  tape->read(val);
+  BOOST_TEST(val == 20);
+
+  tape->prev();
+  tape->read(val);
+  BOOST_TEST(val == 10);
+
+  tape->prev();
+  tape->read(val);
+  BOOST_TEST(val == 10);
+
+  tape->prev();
+  tape->read(val);
+  BOOST_TEST(val == 10);
+
+  tape->next();
+  tape->next();
+  tape->next();
+  tape->next();
+  tape->read(val);
+  BOOST_TEST(val == 50);
+
+  tape->next();
+  BOOST_TEST(tape->end() == true);
+}

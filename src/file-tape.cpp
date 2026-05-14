@@ -34,10 +34,6 @@ void FileTape::read(int & value)
 {
   std::this_thread::sleep_for(ms(delays_["read"]));
   file_.read(reinterpret_cast< char * >(&value), sizeof(value));
-  if (!file_)
-  {
-    return; //todo
-  }
   setHeadPos(pos_);
 }
 
@@ -45,10 +41,13 @@ void FileTape::write(int value)
 {
   std::this_thread::sleep_for(ms(delays_["write"]));
   file_.write(reinterpret_cast< char * >(&value), sizeof(value));
-  std::streampos current_end = file_.tellp();
-  if (current_end > file_size_)
+  if (file_)
   {
-    file_size_ = current_end;
+    std::streampos current_end = file_.tellp();
+    if (current_end > file_size_)
+    {
+      file_size_ = current_end;
+    }
   }
   setHeadPos(pos_);
 }
@@ -56,13 +55,16 @@ void FileTape::write(int value)
 void FileTape::next()
 {
   std::this_thread::sleep_for(ms(delays_["move"]));
-  setHeadPos(pos_ + static_cast< std::streamoff >(sizeof(int))); //todo eof
+  setHeadPos(pos_ + static_cast< std::streamoff >(sizeof(int)));
 }
 
 void FileTape::prev()
 {
   std::this_thread::sleep_for(ms(delays_["move"]));
-  setHeadPos(pos_ - static_cast< std::streamoff >(sizeof(int)));  //todo negative
+  if (pos_ >= static_cast< std::streamoff >(sizeof(int)))
+  {
+    setHeadPos(pos_ - static_cast< std::streamoff >(sizeof(int)));
+  }
 }
 
 void FileTape::rewind()
