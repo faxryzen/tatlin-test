@@ -18,7 +18,7 @@ add_executable(tape_sort
 option(BUILD_TESTS "Build tests" ON)
 
 if(BUILD_TESTS)
-  find_package(Boost REQUIRED COMPONENTS unit_test_framework)
+  find_package(Boost QUIET COMPONENTS unit_test_framework)
 
   if(Boost_FOUND)
     file(GLOB TEST_SOURCES "tests/*.cpp")
