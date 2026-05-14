@@ -15,11 +15,11 @@ make
 ./tape_sort <input_tape> <output_tape>
 ```
 #### Windows (MSVC)
-Если с установить Boost с vcpkg
+Сработает и без Boost. Просто не будут доступны тесты
 ```shell
 mkdir build
 cd build
-cmake .. -DCMAKE_TOOLCHAIN_FILE=<path_to_vcpkg>/scripts/buildsystems/vcpkg.cmake
+cmake ..
 cmake --build . --config Release
 .\Release\tape_sort <input_tape> <output_tape>
 ```
