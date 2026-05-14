@@ -1,1 +1,0 @@
-/usr/bin/g++ -g CMakeFiles/tape_sort.dir/src/main.cpp.o "CMakeFiles/tape_sort.dir/src/file-tape.cpp.o" -o tape_sort

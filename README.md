@@ -1,40 +1,38 @@
 # Приложение **сортировка магнитной ленты**
-## Сборка
-Проект собран на **Ubuntu 20.04.6 LTS**. Для запуска из корня проекта:
-```shell
-./build/tape_sort <input_tape> <output_tape>
-./build/tape_sort --generate <input_tape> <size>
-
-./build/tape_test
-```
-Вы можете самостоятельно собрать проект с помощью `CMake`. Для сборки требуется:
+# Сборка
+Для сборки требуется:
 - Компилятор с поддержкой С++17 (GCC, Clang, MSVC)
 - CMake 3.10+
 - Boost.Test (для unit-тестирования)
 #### Linux
 ```bash
-sudo apt install libboost-test-dev
+sudo apt update
+sudo apt install cmake g++ libboost-all-dev -y
 
 mkdir build && cd build
 cmake ..
 make
+./tape_sort <input_tape> <output_tape>
 ```
+Чтобы все описания автоматически скопировались в `build`, положите их в `descriptions/` в корне проекта
 #### Windows (MSVC)
 ```shell
 mkdir build
 cd build
 cmake ..
 cmake --build . --config Release
+cd ..
+.\build\Release\output.exe simulator_description.txt
 ```
 ## О приложении
 
 Программа запускается следующим образом
 ```shell
-./build/tape_sort <input_tape> <output_tape>
-./build/tape_sort <input_tape> <output_tape> <memory_size>
-./build/tape_sort --generate <input_tape> <size>
+./tape_sort <input_tape> <output_tape>
+./tape_sort <input_tape> <output_tape> <memory_size>
+./tape_sort --generate <input_tape> <size>
 
-./build/tape_test
+./tape_test
 ```
 - С флагом `--generate` приложение генерирует файл с случайными числами и его можно использовать для сортировки
 - Сортировка принимает входной и выходной файлы (и ограничение оперативной памяти). Если выходного файла не существует, он будет создан. Также она выводит время, затраченное на сортировку и дает возможность вывести в строку все отсортированные числа. С задержками на это может уйти время
