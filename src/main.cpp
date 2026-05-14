@@ -110,6 +110,7 @@ int main(int argc, char ** argv)
   if (answer == "y" || answer == "Y" || answer == "yes")
   {
     std::cout << "Sorted data on tape:";
+    output.rewind();
     while (!output.end())
     {
       std::cout << " ";

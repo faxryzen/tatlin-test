@@ -58,6 +58,7 @@ namespace savintsev
           out_->write(mem_[i]);
           out_->next();
         }
+        out_->rewind();
         return;
       }
 

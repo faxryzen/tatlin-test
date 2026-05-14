@@ -5,37 +5,37 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 include_directories(${CMAKE_SOURCE_DIR}/src)
+include_directories(${CMAKE_SOURCE_DIR}/common)
 
-set(LIB_SOURCES
-  src/file-tape.cpp
-)
+file(GLOB_RECURSE LIB_SOURCES "src/*.cpp")
+list(REMOVE_ITEM LIB_SOURCES "${CMAKE_SOURCE_DIR}/src/main.cpp")
 
 add_executable(tape_sort
   src/main.cpp
   ${LIB_SOURCES}
 )
 
-find_package(Boost QUIET CONFIG COMPONENTS unit_test_framework)
+option(BUILD_TESTS "Build tests" ON)
 
-if(NOT Boost_FOUND)
-  cmake_policy(SET CMP0167 OLD)
+if(BUILD_TESTS)
   find_package(Boost REQUIRED COMPONENTS unit_test_framework)
+
+  if(Boost_FOUND)
+    file(GLOB TEST_SOURCES "tests/*.cpp")
+    add_executable(tape_test
+      ${TEST_SOURCES}
+      ${LIB_SOURCES}
+    )
+    target_link_libraries(tape_test PRIVATE Boost::unit_test_framework)
+
+    enable_testing()
+    add_test(NAME tape_test COMMAND tape_test)
+  else()
+    message(STATUS "Boost not found - tests disabled")
+  endif()
 endif()
 
-add_executable(tape_test
-  tests/test-default.cpp
-  tests/test-file-tape.cpp
-  tests/test-sorter.cpp
-  ${LIB_SOURCES}
-)
-
-target_link_libraries(tape_test PRIVATE
-  Boost::unit_test_framework
-)
-
-include_directories(${CMAKE_SOURCE_DIR}/common)
-
-file(GLOB CONFIG_FILES ${CMAKE_SOURCE_DIR}/configs/*)
+file(GLOB CONFIG_FILES "${CMAKE_SOURCE_DIR}/configs/*")
 file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/configs)
 foreach(CONFIG_FILE ${CONFIG_FILES})
   get_filename_component(CONFIG_NAME ${CONFIG_FILE} NAME)
@@ -47,7 +47,3 @@ foreach(CONFIG_FILE ${CONFIG_FILES})
 endforeach()
 
 file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/tmp)
-
-enable_testing()
-
-add_test(NAME tape_test COMMAND tape_test)
